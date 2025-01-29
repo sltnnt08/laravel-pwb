@@ -7,11 +7,12 @@
               <!-- general form elements -->
               <div class="card card-primary">
                 <div class="card-header">
-                  <h3 class="card-title">@yield('form-title-Movies')</h3>
+                    <h3 class="card-title">Movies</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="" method="">
+                <form action="#" method="post" enctype="multipart/form-data">
+                  @csrf
                   <div class="card-body">
                     <div class="form-group">
                       <label for="movieTitle">Movie Title</label>
@@ -37,15 +38,10 @@
                         </div>
                       </div>
                     </div>
-                    {{-- <div class="form-check">
-                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                    </div> --}}
                   </div>
                   <!-- /.card-body -->
-  
                   <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-secondary">Submit</button>
                   </div>
                 </form>
             </div>
