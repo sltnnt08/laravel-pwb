@@ -2,10 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    TestController,
-    TestLagiController,
-    MovieController,
     GenreController,
+    CastController,
 };
 
 Route::get('/iniagan', function () {
@@ -17,8 +15,6 @@ Route::get('/', function () {
 Route::get('/2', function () {
     return view('index2');
 });
-Route::get('/form',[TestController::class, 'form']);
-Route::get('/welcome', [TestController::class, 'welcome']);
 
 // route buat nambahin genre
 // handler = create
@@ -32,5 +28,13 @@ Route::controller(GenreController::class)->group(function () {
     Route::delete('/genre/{id}', 'destroy')->name('genre.destroy');
 });
 
-
+// CAST
+Route::controller(CastController::class)->group(function () {
+    Route::get('/cast','index')->name('cast.index');
+    Route::get('/cast/create','create')->name('cast.create');
+    Route::post('/cast','store')->name('cast.store');
+    Route::get('/cast/{id}/edit','edit')->name('cast.edit');
+    Route::put('/cast/{id}','update')->name('cast.update');
+    Route::delete('/cast/{id}','destroy')->name('cast.destroy');
+});
 

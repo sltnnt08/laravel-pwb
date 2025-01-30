@@ -69,7 +69,7 @@ class GenreController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|min:5',
+            'name' => 'required|min:4',
         ]);
         $query = DB::table('genres')
         ->where('id',$id)
