@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateCastRequest;
+use App\Models\Cast;
+use App\Http\Requests\StoreCastRequest;
+
 
 class CastController extends Controller
 {
@@ -13,7 +14,7 @@ class CastController extends Controller
      */
     public function index()
     {
-        $casts = DB::table('casts')->get();
+        $casts = Cast::select('id', 'name', 'age', 'bio')->get();
         return view('cast.index', compact('casts'));
     }
 
@@ -28,19 +29,10 @@ class CastController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCastRequest $request, Cast $casts)
     {
-        $request->validate([
-            'name' => 'required|min:4',
-            'age' => 'required',
-            'bio' => 'required',
-    ]);
-    $query = DB::table('casts')->insert([
-        'name' => $request['name'],
-        'age' => $request['age'],
-        'bio'=> $request['bio'],
-    ]);
-    return redirect()->route('cast.index')->with(['success' => 'Data Berhasil Ditambahkan!']);
+        $casts = Cast::create($request->all()); 
+        return redirect()->route('cast.index')->with(['success' => 'Data Berhasil Ditambahkan!']);
     }
 
     /**
@@ -56,36 +48,26 @@ class CastController extends Controller
      */
     public function edit(string $id)
     {
-        $casts =  DB::table('casts')->where('id',$id)->first();
-
+        $casts = Cast::findOrFail($id);
         return view('cast.update', compact('casts'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCastRequest $request, Cast $casts, string $id)
     {
-        $request->validate([
-            'name'=> 'required|min:4',
-            'age' => 'required',
-            'bio'=> 'required',
-        ]);
-        $query = DB::table('casts')->where('id',$id)->update([
-            'name'=> $request['name'],
-            'age' => $request['age'],
-            'bio' => $request['bio'],
-        ]);
+        $casts = Cast::findOrFail($id);
+        $casts->update($request->all()); 
         return redirect()->route('cast.index')->with(['success' => 'Data Berhasil Diubah!']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Cast $casts,string $id)
     {
-        $query = DB::table('casts')->where('id',$id)->delete();
-
+        $casts = Cast::select('id')->where('id',$id)->delete();
         return redirect()->route('cast.index')->with(['success'=> 'Data Berhasil Dihapus!']);
     }
 }

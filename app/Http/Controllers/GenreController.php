@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
+use App\Models\Genre;
+use App\Http\Requests\StoreGenreRequest;
+use App\Http\Requests\UpdateGenreRequest;
 
 
 class GenreController extends Controller
@@ -15,9 +15,9 @@ class GenreController extends Controller
     public function index()
     {
          // fetching data dari tabel genres
-         $genres = DB::table('genres')->get();
+        $genres = Genre::select('id', 'name')->get();
          // return ke view dan kirirmkan data $genres
-         return view('genre.index', compact('genres'));
+        return view('genre.index', compact('genres'));
     }
 
     /**
@@ -31,17 +31,10 @@ class GenreController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreGenreRequest $request, Genre $genres)
     {
-        // proses validasi data input dari form
-        $request->validate([
-            'name' => 'required|min:4'
-        ]);
     // query untuk save data dari form
-        $query = DB::table('genres')->insert([
-            'name'=> $request['name']
-        ]);
-
+        $genres = Genre::create($request->all());
         return redirect()->route('genre.index')->with(['success' => 'Data Berhasil ditambahkan']);
     }
 
@@ -58,33 +51,27 @@ class GenreController extends Controller
      */
     public function edit(string $id)
     {
-        $genre = DB::table('genres')->where('id',$id)->first();
-        return view('genre.update',compact('genre'));
+        $genres = Genre::findOrFail($id)->where('id',$id)->first();
+        return view('genre.update',compact('genres'));
 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateGenreRequest $request, Genre $genres, string $id)
     {
-        $request->validate([
-            'name' => 'required|min:4',
-        ]);
-        $query = DB::table('genres')
-        ->where('id',$id)
-        ->update([
-            'name' => $request['name'],
-        ]);
+        $genres = Genre::findOrFail($id);
+        $genres->update($request->all());
         return redirect()->route('genre.index')->with(['success' => 'Data berhasil diubah']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Genre $genres, string $id)
     {
-        $query = DB::table('genres')->where('id',$id)->delete();
+        $genres = Genre::select('id')->where('id',$id)->delete();
         return redirect()->route('genre.index')->with(['success' => 'Data berhasil dihapus']);
     }
 }

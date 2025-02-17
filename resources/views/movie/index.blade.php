@@ -6,21 +6,21 @@
 @endpush
 
 @section('web-title', 'Data Cast')
-@section('content-title','Check Your Favorite Casts Here!')
+@section('content-title','Check Your Favorite Movies Here!')
 @section('content')
 
 @if ($message = Session::get('success'))
     <div class="alert alert-success alert-block">
     <button type="button" class="close" data-dismiss="alert">X</button>
-      <strong>{{ $message }}</strong>
+        <strong>{{ $message }}</strong>
     </div>
 @endif
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-            <a href="{{ route('cast.create') }}" class="btn btn-sm btn-outline-primary">
-            <i class="fa fa-plus"> Cast</i>
+            <a href="{{ route('movie.create') }}" class="btn btn-sm btn-outline-primary">
+            <i class="fa fa-plus"> Movie</i>
             </a>
         </div>
         <!-- /.card-header -->
@@ -29,43 +29,51 @@
             <thead>
                 <tr>
                 <th>No</th>
-                <th>Cast Name</th>
-                <th>Age</th>
-                <th>Bio</th>
+                <th>Title</th>
+                <th>Year</th>
+                <th>Genre</th>
+                <th>Synopsis</th>
+                <th>Poster</th>
                 <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($casts as $key => $value)
+                @forelse ($movies as $key => $value)
                 <tr>
                     <td>
                     {{ $key + 1 }}  
                     </td>
                     <td>
-                    {{ $value->name }}
+                    {{ $value->title }}
                     </td>
                     <td>
-                    {{ $value->age }}
+                    {{ $value->year }}
                     </td>
                     <td>
-                    {{ $value->bio }}
+                    {{ $value->genre->name }}
                     </td>
                     <td>
-                        {{-- <a href="{{ route('genre.show', $value->id) }}" class="btn btn-sm btn-info">
-                        Detail
-                        </a> --}}
-                        <form action="{{ route('cast.destroy',$value->id) }}" method="post">
-                            <a href="{{ route('cast.edit', $value->id) }}" class="btn btn-sm btn-warning">
-                                <i class="fas fa-pen"></i>
-                                <span>Edit</span>
-                            </a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">
-                                <i class="fas fa-times-circle"></i>
-                                <span>Delete</span>
-                            </button>
-                        </form>
+                    {{ $value->synopsis }}
+                    </td>
+                    <td>
+                    {{ $value->poster }}
+                    </td>
+                    <td>
+                      {{-- <a href="{{ route('genre.show', $value->id) }}" class="btn btn-sm btn-info">
+                      Detail
+                      </a> --}}
+                      <form action="{{ route('movie.destroy',$value->id) }}" method="post">
+                          <a href="{{ route('movie.edit', $value->id) }}" class="btn btn-sm btn-warning">
+                              <i class="fas fa-pen"></i>
+                              <span>Edit</span>
+                          </a>
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn btn-sm btn-danger">
+                              <i class="fas fa-times-circle"></i>
+                              <span>Delete</span>
+                          </button>
+                      </form>
                     </td>
                 </tr>
                 @empty

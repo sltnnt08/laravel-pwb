@@ -5,14 +5,17 @@
     <link rel="stylesheet" href="{{asset('template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
 
-@section('web-title','Edit Movie Casts')
+@section('web-title','Edit Casts')
 @section('content-title', 'Edit Data Cast')
 @section('content')
 <div class="row">
   <!-- left column -->
   <div class="col-md-12">
     <!-- general form elements -->
-    <div class="card card-primary">
+    <div class="mx-4 card card-success">
+      <div class="card-header">
+        <h3 class="card-title">Edit Cast</h3>
+      </div>
       <!-- /.card-header -->
       <!-- form start -->
       <form action="{{ route('cast.update', $casts->id) }}" method="POST">
@@ -21,19 +24,19 @@
         <div class="card-body">
           <div class="form-group">
             <label for="movieCast">Movie Cast</label><br>
-            <input type="text" class="form-control" @error('name') {{'is invalid'}} @enderror id="CastName" name="name" placeholder="Enter Cast Name..." value="{{old('name')}}">
+            <input type="text" class="form-control @error('name') {{'is invalid'}} @enderror" id="CastName" name="name" placeholder="Enter Cast Name..." value="{{ $casts->name }}">
           </div>
           <div class="form-group">
             <label for="movieCast">Age</label><br>
-            <input type="number" min="0" class="form-control" @error('age') {{'is invalid'}} @enderror id="CastAge" name="age" placeholder="Enter Cast Age..." value="{{old('age')}}">
+            <input type="number" min="0" class="form-control @error('age') {{'is invalid'}} @enderror"  id="CastAge" name="age" placeholder="Enter Cast Age..." value="{{$casts->age }}">
           </div>
           <div class="form-group">
             <label for="bioCast">Bio</label><br>
-            <textarea rows="4" cols="50" class="form-control" @error('bio') {{'is required'}} @enderror id="CastBio" name="bio" placeholder="Enter Cast Bio..." value="{{old('bio')}}"></textarea>
+            <textarea rows="4" cols="50" class="form-control @error('bio') {{'is required'}} @enderror" id="CastBio" name="bio" placeholder="Enter Cast Bio...">{{ $casts->bio }}</textarea>
           </div>
         </div>
         <div class="px-3 d-flex justify-content-between align-items-center">
-          <button type="reset" class="btn btn-warning">Reset</button>
+          <button type="reset" class="btn btn-secondary">Reset</button>
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>

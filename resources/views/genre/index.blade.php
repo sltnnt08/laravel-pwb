@@ -6,8 +6,9 @@
 @endpush
 
 @section('web-title', 'Data Genre')
+@section('content-title', 'Data Genre')
 @section('content')
-@if ($message = Session::get('Success'))
+@if ($message = Session::get('success'))
     <div class="alert alert-success alert-block">
     <button type="button" class="close" data-dismiss="alert">×</button>
         <strong>{{ $message }}</strong>
@@ -41,9 +42,6 @@
                     {{ $value->name }}
                     </td>
                     <td>
-                        {{-- <a href="{{ route('genre.show', $value->id) }}" class="btn btn-sm btn-info">
-                        Detail
-                        </a> --}}
                         <form action="{{ route('genre.destroy',$value->id) }}" method="post">
                             <a href="{{ route('genre.edit', $value->id) }}" class="btn btn-sm btn-warning">
                                 <i class="fas fa-pen"></i>
